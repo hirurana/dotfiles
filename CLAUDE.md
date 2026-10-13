@@ -1,34 +1,20 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Hiru's macOS dotfiles. Public repo — treat everything here as world-readable.
 
-## Architecture
+## Layout
 
-The config loads in this order:
-1. `init.lua` — sets mouse/clipboard globals, then delegates to `lua/hiru/`
-2. `lua/hiru/init.lua` — requires `remap`, `set`, `lazy_init`; registers autocmds and LSP keymaps via `LspAttach`; registers custom filetypes (`tf`, `tfvars`, `hcl`)
-3. `lua/hiru/lazy_init.lua` — bootstraps lazy.nvim (self-cloning on first run), then loads all specs from `lua/hiru/lazy/`
-4. `lua/hiru/lazy/*.lua` — each file is a standalone lazy.nvim plugin spec returned as a table
+- Each top-level dir except `docs/` and `.githooks/` is a **GNU Stow package** whose contents mirror `$HOME` (e.g. `zsh/.zshrc` → `~/.zshrc`, `nvim/.config/nvim/` → `~/.config/nvim`). The package list is `PACKAGES` in `install.sh`.
+- Files in `$HOME` are symlinks into this repo — edit here, not via copies.
+- `Brewfile` = all CLI tools and apps. Language runtimes are **not** in Brewfile; they're in `mise/.config/mise/config.toml`.
+- `install.sh` must stay idempotent and must back up (never delete) any real file before stowing over it.
+- The Neovim config has its own `nvim/.config/nvim/CLAUDE.md` and `README.md`.
 
-**Plugin specs** in `lua/hiru/lazy/` are auto-discovered via `spec = "hiru.lazy"`. Adding a new file there is all that's needed to register a plugin.
+## Rules
 
-**LSP** uses Neovim 0.11+ native API (`vim.lsp.config` / `vim.lsp.enable`) — the old `require('lspconfig').server.setup()` pattern is gone. All server config lives in `lua/hiru/lazy/lsp.lua`. LSP keymaps are in the `LspAttach` autocmd in `lua/hiru/init.lua`, not inside the lsp plugin spec.
-
-**Formatting** is handled exclusively by conform.nvim (see `lua/hiru/lazy/conform.lua`) on `BufWritePre`. `basedpyright`'s formatting capability is explicitly disabled so ruff via conform is the sole Python formatter. Line length is 88 (ruff-compatible); colour column is set to 88 in `set.lua`.
-
-**Terraform** uses OpenTofu (`tofu`), not `terraform`. `terraformls` is configured with a dynamic path lookup for the `tofu` binary, with an Apple Silicon Homebrew fallback (`/opt/homebrew/bin/tofu`).
-
-## Key conventions
-
-- Leader key is `<Space>` (set in `remap.lua`).
-- Trailing whitespace is stripped on every `BufWritePre`.
-- `R("module.name")` (global in `init.lua`) hot-reloads a module via plenary during development.
-- Custom filetypes `terraform`, `terraform-vars`, `hcl` are registered explicitly — treesitter and LSP depend on these mappings.
-
-## Managing plugins
-
-`:Lazy sync` — install/update/clean.  
-`:Mason` — manage LSP servers, formatters, debug adapters.  
-`:checkhealth` — verify everything is wired up correctly.
-
-After adding a new server: add it to both `ensure_installed` and `vim.lsp.enable({...})` in `lua/hiru/lazy/lsp.lua`, then run `:Mason` + `:Lazy sync`.
+- **Docs stay in sync.** Any change that adds/removes a tool, keybinding, alias or package must update the matching `docs/*.md`, `cheatsheet.md` if it changes a habit, and `README.md` if it affects install or layout.
+- **No secrets.** Tokens, keys, account IDs, work-specific env vars go in `~/.zshrc.local` (untracked) or a project `.envrc`, never in this repo. A gitleaks pre-commit hook enforces this.
+- **Shell speed matters.** Don't add anything to `.zshrc` that forks a process on every prompt or adds noticeable startup time; prefer antidote plugins and cached `eval`s. Check with `time zsh -i -c exit` (≈0.12s baseline).
+- Prompt is powerlevel10k (chosen over Starship for latency). Edit `zsh/.p10k.zsh` directly; don't regenerate it with `p10k configure` without re-applying the trimmed segment list and transient prompt.
+- New runtime/global tools: python/node/go/deno via mise; Python CLIs via `uv tool install` (and add to `install.sh`).
+- Hiru commits and pushes their own changes — don't commit or push unless asked.

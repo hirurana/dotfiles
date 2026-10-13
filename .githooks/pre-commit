@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Block commits that contain secrets. Bypass (only if you're sure): git commit --no-verify
+exec gitleaks git --staged --redact --no-banner

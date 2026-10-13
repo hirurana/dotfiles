@@ -1,0 +1,11 @@
+# skhd — app hotkeys. Cmd+Ctrl+<n> focuses the app, launching it if it isn't running.
+# Reload: skhd --reload   ·   Docs: ~/dotfiles/docs/hotkeys.md
+
+cmd + ctrl - 1 : open -a "iTerm"
+cmd + ctrl - 2 : open -a "Google Chrome"
+cmd + ctrl - 3 : open -a "Spotify"
+cmd + ctrl - 4 : open -a "Notion"
+cmd + ctrl - 5 : open -a "Slack"
+cmd + ctrl - 6 : open -a "Cursor"
+cmd + ctrl - 7 : open -a "Linear"
+cmd + ctrl - 8 : open -a "Microsoft Teams"
