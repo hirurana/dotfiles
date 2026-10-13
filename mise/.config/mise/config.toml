@@ -1,0 +1,13 @@
+# Global mise config — default runtime versions when a project doesn't pin its own.
+# Per-project: `mise use node@20` writes ./mise.toml. Existing .python-version / .nvmrc files are honoured.
+
+[tools]
+python = "3.11"
+node = "22"
+go = "latest"
+deno = "2"
+"npm:aws-cdk" = "latest"   # cdk via mise so node stays mise-managed
+
+[settings]
+# Read .python-version / .nvmrc / .node-version as well as mise.toml
+idiomatic_version_file_enable_tools = ["python", "node"]

@@ -1,0 +1,7 @@
+# antidote plugin list — compiled to ~/.zsh_plugins.zsh whenever this file changes.
+# Order matters: compinit runs in .zshrc before these load; fzf-tab must come
+# before autosuggestions, and syntax-highlighting must be last.
+romkatv/powerlevel10k
+Aloxaf/fzf-tab
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-syntax-highlighting

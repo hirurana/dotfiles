@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# tmux-project: fuzzy-pick a project in ~/Code and open/switch to its tmux session.
+#   tmux-project            pick with fzf
+#   tmux-project <dir>      open a specific directory
+#   tmux-project --restore [session]  rebuild missing windows (default: current session)
+set -euo pipefail
+
+CODE_DIR="${CODE_DIR:-$HOME/Code}"
+WINDOWS=(editor term claude lazygit)
+
+window_cmd() {
+  case "$1" in
+    editor)  echo "nvim ." ;;
+    term)    echo "" ;;            # plain shell
+    claude)  echo "claude" ;;
+    lazygit) echo "lazygit" ;;
+  esac
+}
+
+# Make sure the session has editor/term/claude/lazygit at indices 1-4, in order.
+ensure_windows() {
+  local sess="$1" dir="$2" i=1 name cmd idx
+  for name in "${WINDOWS[@]}"; do
+    if ! tmux list-windows -t "=$sess" -F '#W' | grep -qx "$name"; then
+      cmd="$(window_cmd "$name")"
+      if [[ -n "$cmd" ]]; then
+        tmux new-window -d -t "=$sess:" -n "$name" -c "$dir" "$cmd"
+      else
+        tmux new-window -d -t "=$sess:" -n "$name" -c "$dir"
+      fi
+    fi
+    idx="$(tmux list-windows -t "=$sess" -F '#I #W' | awk -v n="$name" '$2==n{print $1; exit}')"
+    if [[ "$idx" != "$i" ]]; then
+      if tmux list-windows -t "=$sess" -F '#I' | grep -qx "$i"; then
+        tmux swap-window -d -s "=$sess:$idx" -t "=$sess:$i"
+      else
+        tmux move-window -d -s "=$sess:$idx" -t "=$sess:$i"
+      fi
+    fi
+    i=$((i + 1))
+  done
+}
+
+if [[ "${1:-}" == "--restore" ]]; then
+  if [[ -n "${2:-}" ]]; then
+    sess="$2"
+  else
+    [[ -n "${TMUX:-}" ]] || { echo "Not inside tmux (or pass a session name)" >&2; exit 1; }
+    sess="$(tmux display-message -p '#S')"
+  fi
+  dir="$(tmux display-message -p -t "=$sess:" '#{session_path}')"
+  ensure_windows "$sess" "$dir"
+  [[ -n "${TMUX:-}" ]] && tmux display-message "Restored $sess"
+  exit 0
+fi
+
+if [[ $# -ge 1 ]]; then
+  selected="$1"
+else
+  selected="$(find "$CODE_DIR" -mindepth 1 -maxdepth 1 -type d ! -name '.*' 2>/dev/null \
+    | sed "s|^$CODE_DIR/||" | sort \
+    | fzf --prompt='project> ' --height=100% --reverse || true)"
+  [[ -n "$selected" ]] && selected="$CODE_DIR/$selected"
+fi
+[[ -z "${selected:-}" ]] && exit 0
+
+name="$(basename "$selected" | tr '.:' '__')"
+
+if ! tmux has-session -t "=$name" 2>/dev/null; then
+  # Create with the editor as window 1, then add the rest.
+  tmux new-session -d -s "$name" -c "$selected" -n editor "$(window_cmd editor)"
+  ensure_windows "$name" "$selected"
+  tmux select-window -t "=$name:1"
+fi
+
+if [[ -n "${TMUX:-}" ]]; then
+  tmux switch-client -t "=$name"
+else
+  tmux attach-session -t "=$name"
+fi
