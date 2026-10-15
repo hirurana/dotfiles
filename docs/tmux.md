@@ -13,7 +13,7 @@ Every project is a tmux session with four fixed windows:
 | 3 | claude | `claude` |
 | 4 | lazygit | `lazygit` |
 
-**Alt+f** (from the shell or inside tmux) opens the project picker (`~/.local/bin/tmux-project`): fuzzy-pick a folder in `~/Code` and it creates or switches to that session. `tmux-restore` / `prefix R` recreates any window you closed.
+**Alt+f** (from the shell or inside tmux) opens the project picker (`~/.local/bin/tmux-project`): fuzzy-pick a folder in `~/Code` (including the subfolders of any top-level folder that isn't a git repo, e.g. `Foragist/fg-mvp`) and it creates or switches to that session. `tmux-restore` / `prefix R` recreates any window you closed.
 
 Override the projects folder with `CODE_DIR=~/elsewhere` in `~/.zshrc.local`.
 

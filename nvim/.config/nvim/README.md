@@ -44,7 +44,7 @@ After config changes, run `:Lazy sync` then `:Mason` to install new servers/tool
 
 ### Oil.nvim (`-` / `<leader>pv`)
 
-Oil lets you edit the filesystem like a buffer. Navigate directories, rename/delete/create files with normal vim motions then `:w` to apply.
+Oil lets you edit the filesystem like a buffer. Navigate directories, rename/delete/create files with normal vim motions then `:w` to apply. It reloads by itself when files change outside nvim (e.g. `mkdir` in the term window), except while you have unsaved oil edits.
 
 | Key | Action |
 |---|---|

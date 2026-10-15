@@ -6,6 +6,9 @@ return {
     config = function()
         require("oil").setup({
             default_file_explorer = true,
+            -- Reload when files change outside nvim (e.g. mkdir in the term window).
+            -- Skipped while the oil buffer has unsaved edits.
+            watch_for_changes = true,
             columns = {
                 "icon",
                 "permissions",
