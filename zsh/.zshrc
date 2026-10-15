@@ -73,13 +73,27 @@ alias ls='eza -a --group-directories-first'
 alias ll='eza -la --git --group-directories-first'
 alias la='eza -la --git --group-directories-first'
 alias lt='eza --tree --level=2 --git-ignore'
+alias k='kubectl'
 
 # ---- tmux project picker ----
 alias tmux-restore='tmux-project --restore'   # rebuild missing editor/term/claude/lazygit windows
-_tmux_project_widget() { zle -I; tmux-project < /dev/tty; zle reset-prompt; }
+# Outside tmux, run it as a real command line: `tmux attach` fails silently inside a
+# zle widget. Leading space keeps it out of history (hist_ignore_space).
+_tmux_project_widget() {
+  if [[ -n $TMUX ]]; then
+    zle -I; tmux-project < /dev/tty; zle reset-prompt
+  else
+    BUFFER=" tmux-project"; zle accept-line
+  fi
+}
 zle -N _tmux_project_widget
 bindkey '\ef' _tmux_project_widget   # Alt+f (Option as Esc+)
 bindkey 'ƒ'   _tmux_project_widget   # Alt+f (Option as Normal)
 
 # ---- Local overrides (secrets, work config) ----
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/hirurana/.docker/completions $fpath)
+autoload -Uz compinit
+(( ${+_comps[docker]} )) || compinit
+# End of Docker CLI completions

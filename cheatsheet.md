@@ -28,7 +28,7 @@
 | Ctrl+Space | tmux | prefix |
 | Shift+←/→ | tmux | prev/next window |
 | prefix R | tmux | restore missing windows |
-| Cmd+Ctrl+1…8 | macOS | iTerm, Chrome, Spotify, Notion, Slack, Cursor, Linear, Teams |
+| Cmd+Opt+1…8 | macOS | iTerm, Chrome, Spotify, Notion, Slack, Cursor, Linear, Teams |
 | Ctrl+Opt+←/→/Enter | macOS | Rectangle half / half / max |
 | → | shell | accept autosuggestion |
 | ↑ | shell | history search by typed prefix |

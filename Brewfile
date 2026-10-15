@@ -17,6 +17,7 @@ brew "direnv"          # per-directory env vars
 
 # ---- Dev ----
 brew "neovim"
+brew "tree-sitter-cli" # builds nvim-treesitter parsers
 brew "tmux"
 brew "git"
 brew "git-delta"       # nicer git diffs (wire up in git config)

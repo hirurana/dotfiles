@@ -57,8 +57,14 @@ fi
 if [[ $# -ge 1 ]]; then
   selected="$1"
 else
-  selected="$(find "$CODE_DIR" -mindepth 1 -maxdepth 1 -type d ! -name '.*' 2>/dev/null \
-    | sed "s|^$CODE_DIR/||" | sort \
+  # Top-level folders, plus the subfolders of any top-level folder that isn't
+  # itself a git repo (e.g. Foragist/fg-mvp), so grouping folders are searchable.
+  selected="$(
+    find "$CODE_DIR" -mindepth 1 -maxdepth 1 -type d ! -name '.*' 2>/dev/null | while read -r d; do
+      echo "$d"
+      [[ -e "$d/.git" ]] || find "$d" -mindepth 1 -maxdepth 1 -type d ! -name '.*' 2>/dev/null
+    done \
+    | sed "s|^$CODE_DIR/||" | sort -f \
     | fzf --prompt='project> ' --height=100% --reverse || true)"
   [[ -n "$selected" ]] && selected="$CODE_DIR/$selected"
 fi
