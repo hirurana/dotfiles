@@ -90,7 +90,7 @@ Pin frequently used files for instant jumping.
 | Python | `basedpyright` | Type checking (standard mode), completions |
 | Python | `ruff` | Linting diagnostics + auto-fix |
 | Terraform / HCL | `terraformls` | Completions, formatting |
-| YAML | `yamlls` | Schema validation (CloudFormation, GitHub Actions, Docker Compose) |
+| YAML | `yamlls` | Schema validation (Kubernetes, Kustomize, CloudFormation, GitHub Actions, Docker Compose) |
 | JSON | `jsonls` | Schema validation via schemastore |
 | Lua | `lua_ls` | Config editing |
 | Bash | `bashls` | Shell scripts |
@@ -137,7 +137,7 @@ Pin frequently used files for instant jumping.
 |---|---|
 | Python | `ruff_format` (style) + `ruff_fix` (lint auto-fix) |
 | Terraform / HCL | `terraform_fmt` |
-| YAML | `prettier` |
+| YAML | `prettier` (2-space indent) |
 | JSON | `prettier` |
 | JavaScript / TypeScript | `prettier` |
 | Lua | `stylua` |
@@ -353,11 +353,17 @@ Floating terminal. All terminals persist between toggles.
 
 Automatically closes `()`, `[]`, `{}`, `""`, `''`. Works with nvim-cmp.
 
-### Comment.nvim
+### Commenting (built-in)
+
+Neovim's native `gc` / `gcc` (no plugin). The marker comes from the language under the cursor (treesitter-aware `commentstring`).
 
 | Key | Mode | Action |
 |---|---|---|
-| `<C-/>` | normal / visual | Toggle line comment |
+| `<C-/>` / `Cmd+/` | normal / visual | Toggle line comment (current line, or every highlighted line) |
+| `gcc` / `gc{motion}` | normal | Toggle comment on line / motion (e.g. `gcip` = paragraph) |
+| `gc` | visual | Toggle comment on selection |
+
+`Cmd+/` needs the iTerm2 key binding in [`docs/macos.md`](../../../docs/macos.md) (it sends Ctrl+/).
 
 ### Markdown Preview (peek.nvim)
 
@@ -397,6 +403,11 @@ Automatically closes `()`, `[]`, `{}`, `""`, `''`. Works with nvim-cmp.
 - AWS CloudFormation schema (`cloudformation/*.yaml`, `*.cf.yaml`)
 - GitHub Actions workflow schema (`.github/workflows/*.yml`)
 - Docker Compose schema (`docker-compose*.yml`)
+- Kustomize schema (`kustomization.yaml`)
+
+### YAML (Kubernetes)
+
+Any YAML file with a top-level `apiVersion:` and `kind:` is treated as a Kubernetes manifest, whatever its name (detected on open and on save). `yamlls` then validates it against the Kubernetes schema and gives completions and hover docs for fields. CRD kinds (cert-manager, Argo, …) are resolved from the [datree CRDs catalog](https://github.com/datreeio/CRDs-catalog). Helm templates (anything containing `{{`) and `kustomization.yaml` are skipped. The detection lives next to the `yamlls` config in `lua/hiru/lazy/lsp.lua`.
 
 ### JSON
 

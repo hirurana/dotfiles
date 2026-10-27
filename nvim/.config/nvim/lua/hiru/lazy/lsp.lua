@@ -115,7 +115,13 @@ return {
             -- AWS::Serverless::* resources with a generic fallback for plain CFN ones
             ["https://raw.githubusercontent.com/aws/serverless-application-model/main/samtranslator/validator/sam_schema/schema.json"] =
               { "template.{yml,yaml}", "**/template.{yml,yaml}" },
+            ["https://json.schemastore.org/kustomization.json"] =
+              "kustomization.{yml,yaml}",
+            -- Kubernetes manifests: filled in per-file by content detection below
+            kubernetes = {},
           },
+          -- Resolve CRD kinds (cert-manager, Argo, ...) from the datree CRDs catalog
+          kubernetesCRDStore = { enable = true },
           -- Short-form intrinsic function tags used throughout CloudFormation/SAM
           -- templates (!Ref, !Sub, !GetAtt, ...). Without these yamlls treats them
           -- as parse errors ("unresolved tag") instead of valid YAML.
@@ -143,6 +149,45 @@ return {
           hover      = true,
         },
       },
+    })
+
+    -- Kubernetes manifests have no naming convention, so detect them by content
+    -- (top-level apiVersion + kind) and add each path to yamlls' "kubernetes"
+    -- schema. Helm templates ({{ }}) and kustomization files are skipped.
+    local k8s_files = {}
+
+    local function is_k8s_manifest(buf)
+      local name = vim.fs.basename(vim.api.nvim_buf_get_name(buf))
+      if name:match("^kustomization%.ya?ml$") then return false end
+      local has_api, has_kind = false, false
+      for _, line in ipairs(vim.api.nvim_buf_get_lines(buf, 0, -1, false)) do
+        if line:find("{{", 1, true) then return false end
+        has_api  = has_api or line:match("^apiVersion:") ~= nil
+        has_kind = has_kind or line:match("^kind:") ~= nil
+      end
+      return has_api and has_kind
+    end
+
+    local function sync_k8s_schema(buf)
+      local path = vim.api.nvim_buf_get_name(buf)
+      local is_k8s = is_k8s_manifest(buf)
+      if path == "" or (k8s_files[path] == true) == is_k8s then return end
+      k8s_files[path] = is_k8s or nil
+      for _, client in ipairs(vim.lsp.get_clients({ name = "yamlls" })) do
+        client.settings.yaml.schemas.kubernetes = vim.tbl_keys(k8s_files)
+        client:notify("workspace/didChangeConfiguration", { settings = client.settings })
+      end
+    end
+
+    vim.api.nvim_create_autocmd("LspAttach", {
+      callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client and client.name == "yamlls" then sync_k8s_schema(args.buf) end
+      end,
+    })
+    vim.api.nvim_create_autocmd("BufWritePost", {
+      pattern  = { "*.yaml", "*.yml" },
+      callback = function(args) sync_k8s_schema(args.buf) end,
     })
 
     vim.lsp.config("jsonls", {

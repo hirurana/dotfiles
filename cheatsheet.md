@@ -28,11 +28,15 @@
 | Ctrl+Space | tmux | prefix |
 | Shift+←/→ | tmux | prev/next window |
 | prefix R | tmux | restore missing windows |
+| prefix \| / - | tmux | split side by side / stacked |
+| prefix [ | tmux | scroll mode (hjkl, v…y copies) |
+| Cmd+/ | nvim | toggle comment (line or highlighted block) |
 | Cmd+Opt+1…8 | macOS | iTerm, Chrome, Spotify, Notion, Slack, Cursor, Linear, Teams |
 | Ctrl+Opt+←/→/Enter | macOS | Rectangle half / half / max |
 | → | shell | accept autosuggestion |
 | ↑ | shell | history search by typed prefix |
 | `␣cmd` | shell | leading space = not saved to history |
+| `cd ...` | shell | auto-expands to `cd ../..` as you type (each extra `.` = one more level) |
 
 ## Where things live
 

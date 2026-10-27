@@ -33,6 +33,18 @@ zle -N down-line-or-beginning-search
 bindkey '^[[A' up-line-or-beginning-search
 bindkey '^[[B' down-line-or-beginning-search
 
+# Typing a dot after `..` expands live: `cd ...` → `cd ../..`, `cd ....` → `cd ../../..`
+_rationalise_dot() {
+  if [[ $LBUFFER == .. || $LBUFFER == *[[:space:]/].. ]]; then
+    LBUFFER+=/..
+  else
+    LBUFFER+=.
+  fi
+}
+zle -N _rationalise_dot
+bindkey '.' _rationalise_dot
+bindkey -M isearch '.' self-insert   # keep literal dots in Ctrl+R-style search
+
 # ---- Completion ----
 # Rebuild the completion dump at most once a day; otherwise load it as-is (-C).
 fpath=("${HOMEBREW_PREFIX:-/opt/homebrew}/share/zsh/site-functions" $fpath)

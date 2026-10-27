@@ -14,6 +14,7 @@ Not scripted on purpose (personal, and `defaults` keys break between macOS versi
 - [ ] **Key repeat** — System Settings → Keyboard: *Key repeat rate* → Fast (far right), *Delay until repeat* → Short (far right). Makes holding `j`/`k` in Neovim usable.
 - [ ] **Caps Lock → Control** — System Settings → Keyboard → Keyboard Shortcuts… → Modifier Keys → Caps Lock: Control. Your tmux prefix (Ctrl+Space) and Ctrl+h/j/k/l get much easier. (Do it per keyboard — external keyboards are listed separately in that dropdown.)
 - [ ] **iTerm2 Option as Meta** — Settings → Profiles → Keys → General → *Left Option key*: `Esc+`. Makes Alt+C (fzf) and Alt+←/→ (word jumps) work. Alt+f works either way.
+- [ ] **iTerm2 Cmd+/ → comment** — Settings → Keys → Key Bindings → **+** → Keyboard Shortcut `⌘/`, Action *Send Hex Code*, `0x1f`. iTerm passes Ctrl+/ to Neovim, which toggles comments. Or from a shell: `defaults write com.googlecode.iterm2 GlobalKeyMap -dict-add "0x2f-0x100000" '{ Action = 11; Text = "0x1f"; }'`, then restart iTerm.
 - [ ] **iTerm2 unlimited scrollback** — off; tmux keeps 50k lines.
 - [ ] **Dock** — autohide on, remove apps you launch with hotkeys anyway.
 - [ ] **Finder** — Settings → Advanced → *Show all filename extensions*; View → Show Path Bar; `Cmd+Shift+.` toggles hidden files.

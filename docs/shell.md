@@ -50,6 +50,8 @@ zoxide query -l    # list what it remembers, ranked
 
 It learns as you go — first visit a dir normally, after that the shortcut works.
 
+**Dot expansion:** each `.` you type after `..` adds another level as you type: `cd ...` turns into `cd ../..`, `cd ....` into `cd ../../..`. It only fires when `..` starts a word, so `git diff a...b` is left alone.
+
 ### `ls` is now eza
 
 ```sh

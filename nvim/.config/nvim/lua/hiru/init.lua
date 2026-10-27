@@ -40,6 +40,18 @@ autocmd({"BufWritePre"}, {
     command = [[%s/\s\+$//e]],
 })
 
+-- YAML: 2-space indents (the global default in set.lua is 4)
+autocmd("FileType", {
+    group = HiruGroup,
+    pattern = "yaml",
+    callback = function()
+        vim.opt_local.tabstop = 2
+        vim.opt_local.softtabstop = 2
+        vim.opt_local.shiftwidth = 2
+        vim.opt_local.expandtab = true
+    end,
+})
+
 autocmd("FocusGained", {
     group = HiruGroup,
     callback = function()

@@ -22,3 +22,11 @@ vim.keymap.set({ "n", "v" }, "<leader>D", [["_d]], { desc = "Delete to void" })
 -- Keep paste register when pasting over selection
 vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste without clobbering" })
 
+
+-- Toggle comments with Ctrl+/ (iTerm sends this for Cmd+/). Uses Neovim's
+-- built-in gc/gcc, which picks the comment marker per language via treesitter.
+-- Terminals send Ctrl+/ as <C-_>; <C-/> covers terminals that report it as-is.
+for _, key in ipairs({ "<C-_>", "<C-/>" }) do
+    vim.keymap.set("n", key, "gcc", { remap = true, desc = "Toggle line comment" })
+    vim.keymap.set("x", key, "gc", { remap = true, desc = "Toggle comment on selection" })
+end
