@@ -1,7 +1,7 @@
 # Brewfile — `brew bundle --file=~/dotfiles/Brewfile`
 # Language runtimes (node, python, go, deno) are NOT here — mise manages them (see mise/.config/mise/config.toml).
 
-tap "koekeishiya/formulae"                 # skhd (install.sh runs `brew trust` on it)
+tap "asmvik/formulae"                      # skhd (moved from koekeishiya/formulae; install.sh runs `brew trust` on it)
 
 # ---- Shell ----
 brew "antidote"        # zsh plugin manager
@@ -33,12 +33,13 @@ brew "gitleaks"        # secret scanner (pre-commit hook in this repo)
 brew "awscli"
 brew "chamber"
 brew "stripe-cli"
+brew "docker"          # docker CLI only — the engine comes from Docker Desktop, installed manually
+brew "kubernetes-cli"  # kubectl
+brew "minikube"        # local k8s (docker driver — Docker Desktop is installed manually)
 
 # ---- Window management ----
-brew "koekeishiya/formulae/skhd"
+brew "asmvik/formulae/skhd"
 
 # ---- Apps ----
 cask "iterm2"
 cask "rectangle"
-cask "claude-code"
-cask "aws-vault-binary"

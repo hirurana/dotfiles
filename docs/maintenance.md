@@ -29,6 +29,7 @@ brew update && brew upgrade      # CLI tools + apps
 mise upgrade                     # runtimes
 uv tool upgrade --all            # poetry etc.
 antidote update                  # zsh plugins
+claude update                    # Claude Code (also auto-updates)
 nvim → :Lazy sync, :MasonUpdate  # editor plugins
 ```
 

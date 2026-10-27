@@ -24,8 +24,8 @@ fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 step "brew bundle"
-brew tap koekeishiya/formulae >/dev/null
-brew trust koekeishiya/formulae   # third-party tap for skhd; Homebrew requires explicit trust
+brew tap asmvik/formulae >/dev/null
+brew trust --tap asmvik/formulae   # third-party tap for skhd; Homebrew requires explicit trust
 brew bundle --file="$DOTFILES/Brewfile" || echo "!! brew bundle had failures (see above) — fix them and re-run; continuing with the rest"
 
 # ---- Font: MesloLGS NF (the patched Nerd Font powerlevel10k expects) ----
@@ -66,6 +66,10 @@ mise install
 step "uv tools"
 uv tool install poetry 2>/dev/null || uv tool upgrade poetry
 
+# ---- Claude Code: native installer (→ ~/.local/bin/claude, self-updating) — not via brew ----
+step "Claude Code"
+[[ -x "$HOME/.local/bin/claude" ]] || curl -fsSL https://claude.ai/install.sh | bash
+
 # ---- Services ----
 step "skhd service"
 skhd --start-service 2>/dev/null || skhd --restart-service
@@ -80,4 +84,5 @@ Manual steps still needed — see $DOTFILES/README.md#after-install and docs/mac
   - Grant skhd Accessibility access (System Settings → Privacy & Security → Accessibility)
   - iTerm2 font: MesloLGS NF
   - gh auth login
+  - claude (log in)
 EOF

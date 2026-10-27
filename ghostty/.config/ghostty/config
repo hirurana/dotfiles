@@ -1,0 +1,23 @@
+# ~/.config/ghostty/config — Ghostty terminal. Managed in ~/dotfiles (ghostty package).
+# Not active yet: iTerm2 is still the terminal. To switch, see docs/macos.md#switching-to-ghostty.
+# `ghostty +show-config --default --docs` lists every option.
+
+# ---- Look ----
+# nvim draws gruvbox with a transparent background, so this is the bg you see in nvim too.
+theme = Gruvbox Dark
+# Same font as iTerm (Ghostty also has Nerd Font icons built in, so its default font works too).
+font-family = MesloLGS NF
+font-size = 13
+window-padding-x = 4
+window-padding-y = 4
+
+# ---- Keys ----
+# Left Option sends Alt (= iTerm "Esc+"): Alt+C (fzf), Alt+←/→ word jumps, Alt+f project picker.
+macos-option-as-alt = left
+# Cmd+/ sends Ctrl+/ (0x1f) so Neovim toggles comments.
+keybind = super+slash=text:\x1f
+
+# ---- Behaviour ----
+# On ssh, copy the xterm-ghostty terminfo to the host (or fall back to xterm-256color)
+# so remote shells don't break on the unknown TERM.
+shell-integration-features = ssh-terminfo,ssh-env

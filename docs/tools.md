@@ -86,6 +86,16 @@ gh run watch                 # follow CI
 
 Telescope in Neovim uses `rg` and `fd` automatically.
 
+## Kubernetes
+
+`kubectl` and `minikube` come from the Brewfile; Docker Desktop is installed by hand (see [README → After install](../README.md#after-install)).
+
+```sh
+minikube start               # local cluster on the docker driver
+kubectl get pods -A
+minikube stop
+```
+
 ## direnv
 
 Put `export FOO=bar` (or `layout python`) in a project's `.envrc`, then `direnv allow`. Vars load on `cd` in, unload on `cd` out. p10k shows a direnv icon when active.
