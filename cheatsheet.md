@@ -33,6 +33,9 @@
 | Cmd+/ | nvim | toggle comment (line or highlighted block) |
 | Cmd+Opt+1…8 | macOS | iTerm, Chrome, Spotify, Notion, Slack, Cursor, Linear, Teams |
 | Ctrl+Opt+←/→/Enter | macOS | Rectangle half / half / max |
+| Esc / `i` | shell | vi normal / insert mode (prompt ❮ / ❯) |
+| `v` (normal) | shell | edit the command line in nvim |
+| Option+←/→ | shell | jump word back / forward |
 | → | shell | accept autosuggestion |
 | ↑ | shell | history search by typed prefix |
 | `␣cmd` | shell | leading space = not saved to history |

@@ -17,7 +17,24 @@ path=("$HOME/.local/bin" "${HOMEBREW_PREFIX:-/opt/homebrew}/bin" $path)
 setopt nonomatch                 # pass unmatched globs through (e.g. pip install foo[bar])
 setopt auto_cd auto_pushd pushd_ignore_dups pushd_silent
 setopt interactive_comments
-bindkey -e                       # emacs-style line editing
+
+# ---- Line editing: vi mode (prompt shows ❯ insert / ❮ normal) ----
+bindkey -v                       # must come before other bindkeys so they land in viins
+KEYTIMEOUT=1                     # Esc → normal mode without a delay
+# Emacs keys that are hard to give up, in insert mode. Backspace/^W/^U also work past where insert began.
+bindkey -M viins '^A' beginning-of-line '^E' end-of-line '^K' kill-line \
+                 '^W' backward-kill-word '^U' backward-kill-line \
+                 '^?' backward-delete-char '^H' backward-delete-char
+# Option+←/→ jump words: tmux and Ghostty send ^[[1;3D/C, iTerm (Option = Esc+) sends ^[^[[D/C.
+for _km in viins vicmd; do
+  bindkey -M $_km '^[[1;3D' backward-word '^[[1;3C' forward-word \
+                  '^[^[[D' backward-word '^[^[[C' forward-word
+done
+unset _km
+# `v` in normal mode edits the command line in nvim
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
 
 # ---- History ----
 HISTFILE="$HOME/.zsh_history"

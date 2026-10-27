@@ -14,6 +14,10 @@ window-padding-y = 4
 # ---- Keys ----
 # Left Option sends Alt (= iTerm "Esc+"): Alt+C (fzf), Alt+←/→ word jumps, Alt+f project picker.
 macos-option-as-alt = left
+# Option+←/→ send the standard xterm codes (zsh binds them to word jumps). Ghostty's own
+# default sends Esc b / Esc f, and Esc f is the tmux project picker in .zshrc.
+keybind = alt+left=csi:1;3D
+keybind = alt+right=csi:1;3C
 # Cmd+/ sends Ctrl+/ (0x1f) so Neovim toggles comments.
 keybind = super+slash=text:\x1f
 

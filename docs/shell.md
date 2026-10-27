@@ -83,6 +83,20 @@ bat -l json < response.txt # force a language
 
 fzf uses `fd` under the hood, so it respects `.gitignore` and shows dotfiles.
 
+### Line editing: vi mode
+
+The command line is in **vi mode**. You start in insert mode; the prompt shows `❯` in insert and `❮` in normal mode.
+
+| Key | Mode | Does |
+|---|---|---|
+| Esc | insert | normal mode (no delay) — then `h`/`l`, `w`/`b`/`e`, `0`/`$`, `x`, `dw`, `ciw`, `u`… |
+| `v` | normal | open the command line in nvim; save + quit runs it |
+| Option+←/→ | both | jump a word back / forward |
+| Ctrl+A / Ctrl+E | insert | start / end of line (Ctrl+E also accepts an autosuggestion) |
+| Ctrl+W / Ctrl+U / Ctrl+K | insert | delete word back / to line start / to line end |
+
+Option+←/→ needs iTerm's Option key set to Esc+ (see [macos.md](macos.md)); the Ghostty config already sends the right codes.
+
 ### History
 
 - **↑ / ↓** search history by what you've already typed (`git ↑` → last git command).
