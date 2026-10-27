@@ -6,29 +6,33 @@ Not scripted on purpose (personal, and `defaults` keys break between macOS versi
 
 - [ ] **skhd Accessibility** — System Settings → Privacy & Security → Accessibility → `+` → `/opt/homebrew/bin/skhd` (or enable it if listed). Then `skhd --restart-service`.
 - [ ] **Rectangle Accessibility** — prompted on first launch; same pane.
-- [ ] **iTerm2 font** — Settings → Profiles → Text → Font: `MesloLGS NF`, 13pt. Without it the prompt shows boxes instead of icons.
 - [ ] **Keep "switch to a Space with open windows" on** — System Settings → Desktop & Dock → Mission Control → *"When switching to an application, switch to a Space with open windows for the application"*. The skhd hotkeys rely on it.
 
 ## Recommended for a keyboard-driven workflow
 
 - [ ] **Key repeat** — System Settings → Keyboard: *Key repeat rate* → Fast (far right), *Delay until repeat* → Short (far right). Makes holding `j`/`k` in Neovim usable.
 - [ ] **Caps Lock → Control** — System Settings → Keyboard → Keyboard Shortcuts… → Modifier Keys → Caps Lock: Control. Your tmux prefix (Ctrl+Space) and Ctrl+h/j/k/l get much easier. (Do it per keyboard — external keyboards are listed separately in that dropdown.)
-- [ ] **iTerm2 Option as Meta** — Settings → Profiles → Keys → General → *Left Option key*: `Esc+`. Makes Alt+C (fzf) and Alt+←/→ (word jumps) work. Alt+f works either way.
-- [ ] **iTerm2 Cmd+/ → comment** — Settings → Keys → Key Bindings → **+** → Keyboard Shortcut `⌘/`, Action *Send Hex Code*, `0x1f`. iTerm passes Ctrl+/ to Neovim, which toggles comments. Or from a shell: `defaults write com.googlecode.iterm2 GlobalKeyMap -dict-add "0x2f-0x100000" '{ Action = 11; Text = "0x1f"; }'`, then restart iTerm.
-- [ ] **iTerm2 unlimited scrollback** — off; tmux keeps 50k lines.
 - [ ] **Dock** — autohide on, remove apps you launch with hotkeys anyway.
 - [ ] **Finder** — Settings → Advanced → *Show all filename extensions*; View → Show Path Bar; `Cmd+Shift+.` toggles hidden files.
 
-## Switching to Ghostty
+## Ghostty
 
-iTerm2 is the current terminal. A Ghostty config is ready in [`ghostty/.config/ghostty/config`](../ghostty/.config/ghostty/config) and already covers the iTerm items above (MesloLGS NF font, Option as Alt, Cmd+/ → Ctrl+/), plus a gruvbox theme to match Neovim and ssh terminfo handling. tmux already enables truecolor for `xterm-ghostty`. To switch:
+Nothing to click: every terminal setting lives in [`ghostty/.config/ghostty/config`](../ghostty/.config/ghostty/config) (stowed to `~/.config/ghostty/config`). It reproduces the old iTerm2 setup:
 
-1. `Brewfile`: replace `cask "iterm2"` with `cask "ghostty"`.
-2. `install.sh`: add `ghostty` to `PACKAGES`, and change the closing "iTerm2 font" reminder.
-3. `skhd/.config/skhd/skhdrc`: `open -a "iTerm"` → `open -a "Ghostty"`, then `skhd --restart-service`.
-4. Run `~/dotfiles/install.sh` (installs Ghostty and links the config). Check the config with `ghostty +validate-config`.
-5. Update the iTerm mentions: README (Brewfile line, After install font item), this file's iTerm items, [`cheatsheet.md`](../cheatsheet.md), [`hotkeys.md`](hotkeys.md), [`shell.md`](shell.md) (Alt+C note), the comment in `tmux/.tmux.conf` and the Neovim README / `remap.lua` comments.
-6. Optionally remove iTerm2: `brew uninstall --cask iterm2`.
+| iTerm2 setting | Ghostty config |
+|---|---|
+| Font MesloLGS NF 13pt | `font-family`, `font-size` |
+| Left Option = Esc+, right Option = normal | `macos-option-as-alt = left` |
+| Key binding ⌘/ → hex `0x1f` (Neovim comment toggle) | `keybind = super+slash=text:\x1f` |
+| Option+←/→ word jumps | `keybind = alt+left/right=csi:…` |
+| No confirm on close, non-blinking cursor, bright bold | `confirm-close-surface`, `cursor-style-blink`, `bold-is-bright` |
+| New tabs open in the current directory | Ghostty default |
+
+Extras over iTerm: Cmd+←/→ jump to line start/end, Cmd+Backspace deletes to line start, gruvbox theme to match Neovim, and ssh copies Ghostty's terminfo to remote hosts. tmux enables truecolor for `xterm-ghostty`.
+
+Edit the file and press **Cmd+Shift+,** to reload. `ghostty +validate-config` catches typos; `ghostty +list-keybinds` shows every binding.
+
+**Coming from iTerm on an existing Mac:** run `~/dotfiles/install.sh` (installs Ghostty and links the config), then `brew uninstall --cask iterm2` once you're happy.
 
 ## Same thing, from the terminal
 

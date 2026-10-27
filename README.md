@@ -1,6 +1,6 @@
 # dotfiles
 
-My whole macOS dev environment: zsh + powerlevel10k, tmux, Neovim, mise/uv, skhd. One clone, one command.
+My whole macOS dev environment: Ghostty, zsh + powerlevel10k, tmux, Neovim, mise/uv, skhd. One clone, one command.
 
 ## Fresh laptop
 
@@ -25,7 +25,7 @@ Apple Silicon only (the script assumes Homebrew lives in `/opt/homebrew`).
 `install.sh` is idempotent — re-run it any time (e.g. after editing the `Brewfile`). It:
 
 1. Installs Xcode CLT and Homebrew if missing
-2. `brew bundle` — every CLI tool + iTerm2, Rectangle ([Brewfile](Brewfile))
+2. `brew bundle` — every CLI tool + Ghostty, Rectangle ([Brewfile](Brewfile))
 3. Installs the MesloLGS NF font that p10k needs
 4. Backs up any existing real file to `~/dotfiles-backup-<timestamp>/`, then `stow`s each package into `$HOME`
 5. Creates an empty `~/.zshrc.local` for secrets
@@ -39,7 +39,6 @@ Things a script can't (or shouldn't) do — full detail in [docs/macos.md](docs/
 
 - [ ] **skhd → Accessibility:** System Settings → Privacy & Security → Accessibility → enable `skhd`. Hotkeys do nothing until you do.
 - [ ] **Rectangle → Accessibility:** same place, on first launch.
-- [ ] **iTerm2 font:** Settings → Profiles → Text → Font → `MesloLGS NF`.
 - [ ] **GitHub CLI:** `gh auth login`
 - [ ] **Claude Code:** run `claude` and log in
 - [ ] **Git identity & config:** see [docs/tools.md#git](docs/tools.md#git)
@@ -58,7 +57,7 @@ Each top-level folder is a [GNU Stow](https://www.gnu.org/software/stow/) packag
 | `tmux/` | `~/.tmux.conf` | tmux — [docs/tmux.md](docs/tmux.md) |
 | `bin/` | `~/.local/bin/tmux-project` | Project picker script |
 | `mise/` | `~/.config/mise/config.toml` | Global runtime versions — [docs/tools.md](docs/tools.md) |
-| `ghostty/` | `~/.config/ghostty/config` | Ghostty terminal — **ready but not linked yet** (not in `PACKAGES`); see [docs/macos.md](docs/macos.md#switching-to-ghostty) |
+| `ghostty/` | `~/.config/ghostty/config` | Ghostty terminal: font, theme, keys — [docs/macos.md](docs/macos.md#ghostty) |
 | `skhd/` | `~/.config/skhd/skhdrc` | App hotkeys — [docs/hotkeys.md](docs/hotkeys.md) |
 | `git/` | `~/.config/git/ignore` | Global gitignore (git config itself: TODO) |
 

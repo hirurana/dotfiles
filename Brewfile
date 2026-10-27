@@ -41,5 +41,5 @@ brew "minikube"        # local k8s (docker driver — Docker Desktop is installe
 brew "asmvik/formulae/skhd"
 
 # ---- Apps ----
-cask "iterm2"
+cask "ghostty"
 cask "rectangle"

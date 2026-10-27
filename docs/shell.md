@@ -78,7 +78,7 @@ bat -l json < response.txt # force a language
 |---|---|
 | **Ctrl+R** | fuzzy search shell history (replaces the default reverse search) |
 | **Ctrl+T** | fuzzy-pick a file and paste its path onto the command line |
-| **Alt+C** | fuzzy-pick a directory and `cd` into it (needs iTerm Option = Esc+) |
+| **Alt+C** | fuzzy-pick a directory and `cd` into it (left Option acts as Alt — set in the Ghostty config) |
 | `**<Tab>` | e.g. `vim **<Tab>` — fuzzy file completion |
 
 fzf uses `fd` under the hood, so it respects `.gitignore` and shows dotfiles.
@@ -95,7 +95,7 @@ The command line is in **vi mode**. You start in insert mode; the prompt shows `
 | Ctrl+A / Ctrl+E | insert | start / end of line (Ctrl+E also accepts an autosuggestion) |
 | Ctrl+W / Ctrl+U / Ctrl+K | insert | delete word back / to line start / to line end |
 
-Option+←/→ needs iTerm's Option key set to Esc+ (see [macos.md](macos.md)); the Ghostty config already sends the right codes.
+Option+←/→ works because the Ghostty config sends the standard codes for them. Cmd+←/→ also jump to line start/end (Ghostty sends Ctrl+A/E), and Cmd+Backspace deletes to line start.
 
 ### History
 

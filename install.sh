@@ -4,7 +4,7 @@
 set -euo pipefail
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
-PACKAGES=(zsh nvim tmux bin skhd git mise)
+PACKAGES=(zsh nvim tmux bin skhd git mise ghostty)
 BACKUP="$HOME/dotfiles-backup-$(date +%Y%m%d-%H%M%S)"
 
 step() { printf '\n\033[1;32m==> %s\033[0m\n' "$*"; }
@@ -82,7 +82,6 @@ cat <<EOF
 Done. Open a new terminal (or run: exec zsh).
 Manual steps still needed — see $DOTFILES/README.md#after-install and docs/macos.md:
   - Grant skhd Accessibility access (System Settings → Privacy & Security → Accessibility)
-  - iTerm2 font: MesloLGS NF
   - gh auth login
   - claude (log in)
 EOF

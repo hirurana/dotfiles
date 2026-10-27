@@ -23,7 +23,7 @@ vim.keymap.set({ "n", "v" }, "<leader>D", [["_d]], { desc = "Delete to void" })
 vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste without clobbering" })
 
 
--- Toggle comments with Ctrl+/ (iTerm sends this for Cmd+/). Uses Neovim's
+-- Toggle comments with Ctrl+/ (the Ghostty config sends this for Cmd+/). Uses Neovim's
 -- built-in gc/gcc, which picks the comment marker per language via treesitter.
 -- Terminals send Ctrl+/ as <C-_>; <C-/> covers terminals that report it as-is.
 for _, key in ipairs({ "<C-_>", "<C-/>" }) do

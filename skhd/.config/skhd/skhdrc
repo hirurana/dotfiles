@@ -1,7 +1,7 @@
 # skhd — app hotkeys. Cmd+Opt+<n> focuses the app, launching it if it isn't running.
 # Reload: skhd --reload   ·   Docs: ~/dotfiles/docs/hotkeys.md
 
-cmd + alt - 1 : open -a "iTerm"
+cmd + alt - 1 : open -a "Ghostty"
 cmd + alt - 2 : open -a "Google Chrome"
 cmd + alt - 3 : open -a "Spotify"
 cmd + alt - 4 : open -a "Notion"

@@ -1,6 +1,7 @@
 # ~/.config/ghostty/config — Ghostty terminal. Managed in ~/dotfiles (ghostty package).
-# Not active yet: iTerm2 is still the terminal. To switch, see docs/macos.md#switching-to-ghostty.
-# `ghostty +show-config --default --docs` lists every option.
+# Mirrors the old iTerm2 setup; see docs/macos.md#ghostty.
+# `ghostty +show-config --default --docs` lists every option. Check edits with `ghostty +validate-config`.
+# Comments must be on their own line — a trailing `# …` becomes part of the value.
 
 # ---- Look ----
 # nvim draws gruvbox with a transparent background, so this is the bg you see in nvim too.
@@ -10,9 +11,12 @@ font-family = MesloLGS NF
 font-size = 13
 window-padding-x = 4
 window-padding-y = 4
+cursor-style-blink = false
+bold-is-bright = true
 
 # ---- Keys ----
-# Left Option sends Alt (= iTerm "Esc+"): Alt+C (fzf), Alt+←/→ word jumps, Alt+f project picker.
+# Left Option sends Alt (= iTerm "Esc+"); right Option still types ƒ, #, € etc.
+# Alt+C (fzf), Alt+f (project picker), Option+←/→ word jumps.
 macos-option-as-alt = left
 # Option+←/→ send the standard xterm codes (zsh binds them to word jumps). Ghostty's own
 # default sends Esc b / Esc f, and Esc f is the tmux project picker in .zshrc.
@@ -22,6 +26,8 @@ keybind = alt+right=csi:1;3C
 keybind = super+slash=text:\x1f
 
 # ---- Behaviour ----
+# Close tabs/windows without asking, like iTerm did.
+confirm-close-surface = false
 # On ssh, copy the xterm-ghostty terminfo to the host (or fall back to xterm-256color)
 # so remote shells don't break on the unknown TERM.
 shell-integration-features = ssh-terminfo,ssh-env

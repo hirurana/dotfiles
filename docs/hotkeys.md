@@ -6,7 +6,7 @@ Config: [`skhd/.config/skhd/skhdrc`](../skhd/.config/skhd/skhdrc). **Cmd+Opt+num
 
 | Key | App |
 |---|---|
-| Cmd+Opt+1 | iTerm |
+| Cmd+Opt+1 | Ghostty |
 | Cmd+Opt+2 | Google Chrome |
 | Cmd+Opt+3 | Spotify |
 | Cmd+Opt+4 | Notion |

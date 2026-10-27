@@ -363,7 +363,7 @@ Neovim's native `gc` / `gcc` (no plugin). The marker comes from the language und
 | `gcc` / `gc{motion}` | normal | Toggle comment on line / motion (e.g. `gcip` = paragraph) |
 | `gc` | visual | Toggle comment on selection |
 
-`Cmd+/` needs the iTerm2 key binding in [`docs/macos.md`](../../../docs/macos.md) (it sends Ctrl+/).
+`Cmd+/` works because the [Ghostty config](../../../ghostty/.config/ghostty/config) sends Ctrl+/ for it.
 
 ### Markdown Preview (peek.nvim)
 
